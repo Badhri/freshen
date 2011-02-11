@@ -27,12 +27,12 @@ class StepsRunner(object):
         for s in steps:
             self.run_step(s)
     
-    def run_step(self, step):
+    def run_step(self, context, step):
         step_impl, args = self.step_registry.find_step_impl(step)
         if step.arg is not None:
-            return step_impl.run(step.arg, *args)
+            return step_impl.run(context, step.arg, *args)
         else:
-            return step_impl.run(*args)
+            return step_impl.run(context, *args)
 
 
 class TagMatcher(object):
@@ -80,7 +80,7 @@ def load_language(language_name, default_language_name="en"):
         return None
     return Language(languages[language_name], languages[default_language_name])
 
-def run_steps(spec, language="en"):
+def run_steps(context, spec, language="en"):
     """ Can be called by the user from within a step definition to execute other steps. """
 
     # The way this works is a little exotic, but I couldn't think of a better way to work around
@@ -93,7 +93,7 @@ def run_steps(spec, language="en"):
         if "self" in fr.f_locals:
             f_self = fr.f_locals['self']
             if isinstance(f_self, StepsRunner):
-                return f_self.run_steps_from_string(spec, language)
+                return f_self.run_steps_from_string(context, spec, language)
         fr = fr.f_back
 
 

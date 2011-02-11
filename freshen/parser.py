@@ -10,6 +10,8 @@ import os
 import re
 import textwrap
 
+from context import Context
+
 try:
     from os.path import relpath
 except Exception, e:
@@ -66,6 +68,7 @@ class Scenario(object):
         self.name = name
         self.steps = steps
         self.background = None
+        self.scc = Context()
 
     def __repr__(self):
         return '<Scenario "%s">' % self.name

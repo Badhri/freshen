@@ -60,14 +60,14 @@ class FreshenTestCase(unittest.TestCase):
     
     def setUp(self):
         #log.debug("Clearing scenario context")
-        scc.clear()
         for hook_impl in self.step_registry.get_hooks('before', self.scenario.get_tags()):
             hook_impl.run(self.scenario)
     
     def runTest(self):
         for step in self.scenario.iter_steps():
+            context = {"scc":self.scenario.scc}
             try:
-                self.step_runner.run_step(step)
+                self.step_runner.run_step(context, step)
             except (AssertionError, UndefinedStepImpl, ExceptionWrapper):
                 raise
             except:

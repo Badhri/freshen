@@ -43,11 +43,11 @@ class StepImpl(object):
             if hasattr( self, 're_spec' ):
                 del self.re_spec
     
-    def run(self, *args, **kwargs):
-        self.func(*args, **kwargs)
+    def run(self, context, *args, **kwargs):
+        self.func(context, *args, **kwargs)
 
-    def __call__(self, *args, **kwargs):
-        self.func(*args, **kwargs)
+    def __call__(self, context, *args, **kwargs):
+        self.func(context, *args, **kwargs)
     
     def match(self, match):
         if not hasattr( self, 're_spec' ):
