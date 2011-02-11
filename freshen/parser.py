@@ -272,8 +272,8 @@ def grammar(fname, l, convert=True, base_line=0):
 
 def parse_file(fname, language, convert=True):
     feature, _ = grammar(fname, language, convert)
+    file_obj = open(fname)
     try:
-        file_obj = open(fname)
         if convert:
             feat = feature.parseFile(file_obj)[0]
         else:
